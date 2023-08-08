@@ -5,7 +5,6 @@ on:
     - cron: '*/10 * * * *'  # Run every 10 minutes
   workflow_dispatch:  # Manual trigger
 
-
 jobs:
   run-script:
     name: Run Availability Script
@@ -29,3 +28,12 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
         run: node availability.js
 
+      - name: Commit data.json
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add data.json
+          git commit -m "Update data.json [skip ci]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
