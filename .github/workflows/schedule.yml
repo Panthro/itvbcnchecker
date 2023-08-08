@@ -3,6 +3,8 @@ name: Run Availability Script
 on:
   schedule:
     - cron: '*/10 * * * *'  # Run every 10 minutes
+  workflow_dispatch:  # Manual trigger
+
 
 jobs:
   run-script:
