@@ -1,0 +1,29 @@
+name: Run Availability Script
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'  # Run every 10 minutes
+
+jobs:
+  run-script:
+    name: Run Availability Script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run script
+        env:
+          TELEGRAM_API_TOKEN: ${{ secrets.TELEGRAM_API_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+        run: node availability.js
+
