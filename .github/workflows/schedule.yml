@@ -1,5 +1,8 @@
 name: Run Availability Script
 
+permissions:
+  contents: write
+
 on:
   schedule:
     - cron: '*/10 * * * *'  # Run every 10 minutes
@@ -28,12 +31,6 @@ jobs:
           CHAT_ID: ${{ secrets.CHAT_ID }}
         run: node availability.js
 
-      - name: Commit data.json
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add data.json
-          git commit -m "Update data.json [skip ci]"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Adds new properties (auto)
