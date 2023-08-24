@@ -43,6 +43,14 @@ async function main() {
   try {
     const newData = await fetchData();
 
+    const todayPlus7Days = new Date();
+    todayPlus7Days.setDate(todayPlus7Days.getDate() + 7);
+    for (const [key, value] of Object.entries(newData)) {
+      if(Date.parse(value) > todayPlus7Days ){
+        delete newData[key]
+      }
+    }
+
     if (newData === null) {
       return;
     }
@@ -59,7 +67,7 @@ async function main() {
     if (!oldData || JSON.stringify(newData) !== JSON.stringify(oldData)) {
       saveDataToFile(newData);
       sendTelegramMessage('New available dates:\n' + Object.values(newData).join('\n') + '\nBook Now: https://www.itv-tuvrheinland.es/cita-previa-itv?vehicle_type_id=9&center_id=17');
-      
+
     } else {
       console.log('Data has not changed.');
     }
