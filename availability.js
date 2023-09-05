@@ -66,7 +66,11 @@ async function main() {
 
     if (!oldData || JSON.stringify(newData) !== JSON.stringify(oldData)) {
       saveDataToFile(newData);
-      sendTelegramMessage('New available dates:\n' + Object.values(newData).join('\n') + '\nBook Now: https://www.itv-tuvrheinland.es/cita-previa-itv?vehicle_type_id=9&center_id=17');
+      if (Object.values(newData).length === 0) {
+        sendTelegramMessage('No available dates');
+      } else {
+        sendTelegramMessage('New available dates:\n' + Object.values(newData).join('\n') + '\nBook Now: https://www.itv-tuvrheinland.es/cita-previa-itv?vehicle_type_id=9&center_id=17');
+      }
 
     } else {
       console.log('Data has not changed.');
